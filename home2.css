@@ -1,0 +1,28 @@
+body {
+  margin: 0; /* Resetting the margin */
+  background-color:green;
+  padding-top: 60px;
+}
+.navbar {
+  overflow: hidden;
+  background-color: #333;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  margin: auto;
+}
+
+.navbar a {
+  float: left;
+  display: block;
+  color: #ffff;
+  text-align: center;
+  padding: 14px 60px;
+  text-decoration: none;
+  font-size: 20px;
+}
+
+.navbar a:hover {
+  background: #ddd;
+  color: black;
+}
