@@ -1,6 +1,7 @@
 <?php
 require_once('database.php');
 require_once('functions.php');
+require_once('session.php');
 $mysqli = Database::dbConnect();
 $mysqli -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
@@ -17,24 +18,29 @@ if(isset($_POST['submit'])){
  $zip = $_POST['zip'];
  $encrypt = password_encrypt($pass);
 
- $query = "select * from externalusers where phonenumber = ? and lastname = ?";
+ $query = "select * from externalusers where street = ? or username = ?";
  $stmt = $mysqli -> prepare($query);
- $stmt -> execute([$phone,$last]);
+ $stmt -> execute([$street,$user]);
  if($stmt -> rowCount() < 1){
   $query2 = "insert into externalusers values (NULL,?,?,?,?,?,?,?,?,?,0)";
   $stmt2 = $mysqli-> prepare($query2);
   $stmt2 -> execute([$user,$encrypt,$first,$last,$phone,$street,$city,$state,$zip]);
   if($stmt2){
+   $_SESSION['message'] = "Account Successfully Created";
    header("Location: https://turing.cs.olemiss.edu/~kcking2/SeniorProject/home.php");
   }
  }else{
-  echo "Account Already Created";
+  $_SESSION['message'] = "Account Already Created";
  }
  
 }
 
 ?>
-<link rel="stylesheet" href="home.css">
+<link rel="stylesheet" href="home2.css">
+<?php if (($output = message()) !== null) {
+	echo '<center><a style="color: white; background-color: #002147; padding: 5px 10px; border-radius: 5px; text-decoration: none; display: inline-block; font-size: 25px;">'.$output.'</a><center>';
+}
+?>
 
 <center><h1 style="color:white;"> Create Account</h1></center>
 <form action="createuser.php" method = "post">
@@ -70,3 +76,5 @@ if(isset($_POST['submit'])){
 
 
 </form>
+
+<center><a href="home.php">Go Back to Login</a></center>

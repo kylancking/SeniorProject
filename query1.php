@@ -1,12 +1,15 @@
 <?php
 require_once("database.php");
-require_once("session.php");
+require_once('session.php');
+if (($output = message()) !== null) {
+	echo '<center><a style="color: white; background-color: #002147; padding: 5px 10px; border-radius: 5px; text-decoration: none; display: inline-block; font-size: 25px;">'.$output.'</a><center>';
+}
+if(isset($_SESSION['username']) && $_SESSION['username'] !== ""){
+}else{
+  $_SESSION['message'] = "You must be logged in to access this page";
+  header("Location: https://turing.cs.olemiss.edu/~kcking2/SeniorProject/home2.php");
+}
 require_once("functions.php");
-
-//if (!isset($_SESSION["username"])) {
-//    $_SESSION["message"] = "You must log in first";
-//    header("Location: https://turing.cs.olemiss.edu/~kcking2/SeniorProject/home.php");
-//}
 
 $mysqli = Database::dbConnect();
 $mysqli->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -64,12 +67,14 @@ $stmt -> execute([$visits]);
    <title>Employee Information</title>
 <div class="navbar">
 <a href='internalpage.php'>Back to Home</a>
+<a href='searchrec.php'>Back to Search</a>
+<a href='viewrecipients.php'>Back to View</a>
 <a href='logout2.php'>Logout</a>
 
 </div>
-s
+
 <body>
-        <center><h2>Recipient Information</h2><center>
+        <center><h2 style="color:white;">Recipient Information</h2><center>
 	<center>
 <table bordercolor = "ffffff" border="5">
         <thead>
@@ -98,7 +103,7 @@ s
 	<td hidden><?= $row['id']?></td>
 	<?php
  	if($_SESSION['privilege'] === 0){
-	echo "<td><a href='deleterec.php?id=".urlencode($row['id'])."' onclick=\"return confirm('Are you sure you want to delete?');\" style='color:red'>X</a></td>";
+	echo "<td><a href='deleterec.php?id=".urlencode($row['id'])."' onclick=\"return confirm('Are you sure you want to delete this recipient?');\" style='color:red'>X</a></td>";
 	}
 	?>
         </tr>

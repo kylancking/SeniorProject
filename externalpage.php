@@ -1,7 +1,7 @@
 <?php
 require_once('session.php');
 if (($output = message()) !== null) {
-	echo $output;
+	echo '<center><a style="color: white; background-color: #002147; padding: 5px 10px; border-radius: 5px; text-decoration: none; display: inline-block; font-size: 25px;">'.$output.'</a><center>';
 }
 if(isset($_SESSION['username']) && $_SESSION['username'] !== ""){
 }else{
@@ -21,9 +21,9 @@ $stmt = $mysqli->prepare($query);
 $stmt -> execute([$user]);
 if($stmt){
  $row = $stmt -> fetch();
- echo ". You have visited the food pantry ";
+ echo "<p style='color:white;'>&nbsp You have visited the food pantry ";
  echo $row['visits'];
- echo " times!";
+ echo " times!</p>";
 }
 
 

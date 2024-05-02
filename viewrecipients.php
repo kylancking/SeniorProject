@@ -1,6 +1,14 @@
 <?php
 require_once("database.php");
-require_once("session.php");
+require_once('session.php');
+if (($output = message()) !== null) {
+	echo '<center><a style="color: white; background-color: #002147; padding: 5px 10px; border-radius: 5px; text-decoration: none; display: inline-block; font-size: 25px;">'.$output.'</a><center>';
+}
+if(isset($_SESSION['username']) && $_SESSION['username'] !== ""){
+}else{
+  $_SESSION['message'] = "You must be logged in to access this page";
+  header("Location: https://turing.cs.olemiss.edu/~kcking2/SeniorProject/home2.php");
+}
 require_once("functions.php");
 
 //if (!isset($_SESSION["username"])) {
@@ -55,7 +63,7 @@ $stmt->execute();
 	<td hidden><?= $row['id']?></td>
 	<?php
         if($_SESSION['privilege'] === 0){
-	echo "<td><a href='deleterec.php?id=".urlencode($row['id'])."' onclick=\"return confirm('Are you sure you want to delete?');\" style='color:red'>X</a></td>";
+	echo "<td><a href='deleterec.php?id=".urlencode($row['id'])."' onclick=\"return confirm('Are you sure you want to delete this recipient?');\" style='color:red'>X</a></td>";
 	}
         ?>
         </tr>

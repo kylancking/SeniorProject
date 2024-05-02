@@ -3,7 +3,6 @@ require_once('session.php');
 
 require_once('database.php');
 require_once('functions.php');
-require_once('session.php');
 
 $mysqli = Database::dbConnect();
 $mysqli -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -45,22 +44,22 @@ if(isset($_POST['submit'])){
 ?>
 <link rel="stylesheet" href="home2.css">
 
-
+<center><h1 style=color:white; size=larger;>Recipient Login</h1></center>
 <center><img src="PantryPal_copy.jpg" alt="Logo" width = "300" height = "300" class="bordered-image"></center>
 <br>
 <br>
 <form action="home.php" method = "post">
-<center><label for="username">Username: </label>
+<center><label for="username" style=color:white;>Username: </label>
 <input type="text" name="username"></center>
-<center><label for="password">Password: </label>
+<center><label for="password" style=color:white;>Password: </label>
 <input type="password" name="password"></center>
 <center><input type="submit" name="submit" value="Submit"></center>
 <center><input type="submit" name="submit2" value="Create Account"></center>
 <?php if (($output = message()) !== null) {
-	echo '<center><a style="color:white;">'.$output.'</a></center>';
+	echo '<center><a style="color: white; background-color: #002147; padding: 5px 10px; border-radius: 5px; text-decoration: none; display: inline-block; font-size: 25px;">'.$output.'</a><center>';
 }?>
 
-<br/><br/><br/>
-<center><a href='home2.php'>Workers Sign in Here</a></center>
 
 </form>
+<br/><br/><br/>
+<center><a href='home2.php'>Workers Sign in Here</a></center>

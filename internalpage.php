@@ -1,9 +1,8 @@
 <?php
 require_once('session.php');
 if (($output = message()) !== null) {
-	echo $output;
+	echo '<center><a style="color: white; background-color: #002147; padding: 5px 10px; border-radius: 5px; text-decoration: none; display: inline-block; font-size: 25px;">'.$output.'</a><center>';
 }
-
 if(isset($_SESSION['username']) && $_SESSION['username'] !== ""){
 }else{
   $_SESSION['message'] = "You must be logged in to access this page";
@@ -24,6 +23,7 @@ if(isset($_SESSION['username']) && $_SESSION['username'] !== ""){
   if($_SESSION['privilege'] === 0){
   echo '<a href="addworker.php">Add a Worker</a>';
   echo '<a href="viewworkers.php">View Workers</a>';
+  echo '<a href="changepassword.php">Change User Password</a>';
   }
   ?>
   <a href="viewrecipients.php">View Recipients</a>

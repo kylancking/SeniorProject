@@ -1,13 +1,17 @@
 <?php
 require_once("database.php");
-require_once("session.php");
+require_once('session.php');
+if (($output = message()) !== null) {
+	echo '<center><a style="color: white; background-color: #002147; padding: 5px 10px; border-radius: 5px; text-decoration: none; display: inline-block; font-size: 25px;">'.$output.'</a><center>';
+}
+if(isset($_SESSION['username']) && $_SESSION['username'] !== ""){
+}else{
+  $_SESSION['message'] = "You must be logged in to access this page";
+  header("Location: https://turing.cs.olemiss.edu/~kcking2/SeniorProject/home2.php");
+}
 require_once("functions.php");
 
-//if (!isset($_SESSION["username"])) {
-//    $_SESSION["message"] = "You must log in first";
-//    header("Location: https://turing.cs.olemiss.edu/~kcking2/SeniorProject/home.php");
-//}
-
+$username = $_SESSION['username'];
 $mysqli = Database::dbConnect();
 $mysqli->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
@@ -27,7 +31,7 @@ $stmt->execute();
 <body>
         <center><h2 style='color:white;'>Employee Information</h2><center>
 	<center>
-<table>
+<table class="custom-table">
         <thead>
 	<th>Username</th>
 	<th>Role</th>
@@ -41,11 +45,19 @@ $stmt->execute();
         <td><?= $row['description'] ?></td>
 	<td hidden><?= $row['typeid']?></td>
 	<?php
-	echo "<td><a href='deleteworker.php?id=".urlencode($row['username'])."' onclick=\"return confirm('Are you sure you want to delete?');\" style='color:red'>X</a></td>";
+	if($row['username'] !== $username){
+	echo "<td><a href='deleteworker.php?id=".urlencode($row['username'])."' onclick=\"return confirm('Are you sure you want to delete this worker?');\" style='color:red'>X</a></td>";
+	}else{
+	echo "<td>Cannot Delete Yourself</td>";
+	}
+	if($row['username'] !== $username){
 	if($row['typeid'] === 0){
 	echo "<td><a href='demote.php?id=".urlencode($row['username'])."'>Demote</a></td>";
 	}else{
 	echo "<td><a href='promote.php?id=".urlencode($row['username'])."'>Promote</a></td>";	
+	}
+	}else{
+	echo "<td>Cannot Promote/Demote Yourself</td>";
 	}
 	?>
         </tr>
@@ -55,16 +67,14 @@ $stmt->execute();
 	</center>
 </body>
 <style>
+.custom-table {
+        border: 5px solid #ffffff;
+    }
 td,th{
 color:black;
 background-color:white;
-border: 1px green;
 text-align: center;
 }
-table {
-color: 5px color=white;
-width: 60%
-        }
 </style>
 </html>
 </div>

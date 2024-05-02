@@ -1,4 +1,13 @@
 <?php
+require_once('session.php');
+if (($output = message()) !== null) {
+	echo '<center><a style="color: white; background-color: #002147; padding: 5px 10px; border-radius: 5px; text-decoration: none; display: inline-block; font-size: 25px;">'.$output.'</a><center>';
+}
+if(isset($_SESSION['username']) && $_SESSION['username'] !== ""){
+}else{
+  $_SESSION['message'] = "You must be logged in to access this page";
+  header("Location: https://turing.cs.olemiss.edu/~kcking2/SeniorProject/home.php");
+}
 
 ?>
 <link rel="stylesheet" href="home2.css">
@@ -16,7 +25,10 @@ will meet with you to discuss options.<br/><b>What is the Church's Affiliation w
 The church supplies workers, funds, donations, and the pantry building. Membership is not required to receive food, still we welcome anyone to join us!<br/>
 <b>How Can I Get in Contact With Someone Regarding the Food Pantry?</b><br/>
 Please Feel Free to Contact the Church's Office at (662) 562-6331 or Come Stop By During Our Operation Hours: Tuesday and Thursday 9-12pm<br/>
-Alternate Times Can Be Arranged if needed
+Alternate Times Can Be Arranged if needed<br/><b>What Other Resources Are Available?</b><br/>
+There are several alternatives if we cannot provide for every need.<br/>
+<u><a href="https://www.facebook.com/p/Hope-Ministries-Resale-store-Food-Pantry-100086004550783/">Hope Ministries</a></u><br/>110 Robinson St Senatobia, MS<br/>(662)562-4673<br/>
+<u><a href="https://southernusa.salvationarmy.org/Memphis/">Salvation Army</a></u><br />2679 Kirby Whitten Rd Memphis, TN<br/>(901)531-1770
 </center>
 </p>
 </div>

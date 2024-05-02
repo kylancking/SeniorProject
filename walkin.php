@@ -2,6 +2,14 @@
 require_once('database.php');
 require_once('functions.php');
 require_once('session.php');
+if (($output = message()) !== null) {
+	echo '<center><a style="color: white; background-color: #002147; padding: 5px 10px; border-radius: 5px; text-decoration: none; display: inline-block; font-size: 25px;">'.$output.'</a><center>';
+}
+if(isset($_SESSION['username']) && $_SESSION['username'] !== ""){
+}else{
+  $_SESSION['message'] = "You must be logged in to access this page";
+  header("Location: https://turing.cs.olemiss.edu/~kcking2/SeniorProject/home2.php");
+}
 $mysqli = Database::dbConnect();
 $mysqli -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 //$uname = $_SESSION['username'];
@@ -18,9 +26,9 @@ if(isset($_POST['submit'])){
  $zip = $_POST['zip'];
  $encrypt = password_encrypt($pass);
 
- $query = "select * from externalusers where phonenumber = ? and lastname = ?";
+ $query = "select * from externalusers where street = ? OR username = ?";
  $stmt = $mysqli -> prepare($query);
- $stmt -> execute([$phone,$last]);
+ $stmt -> execute([$street,$user]);
  if($stmt -> rowCount() < 1){
   $query2 = "insert into externalusers values (NULL,?,?,?,?,?,?,?,?,?,0)";
   $stmt2 = $mysqli-> prepare($query2);
@@ -33,7 +41,8 @@ if(isset($_POST['submit'])){
    header("Location: https://turing.cs.olemiss.edu/~kcking2/SeniorProject/walkin2.php");
   }
  }else{
-  echo "Account Already Created";
+  $_SESSION['message'] = "Account Already Created";
+   header("Location: https://turing.cs.olemiss.edu/~kcking2/SeniorProject/walkin.php");
  }
  
 }

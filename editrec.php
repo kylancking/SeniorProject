@@ -1,5 +1,15 @@
 <?php
 require_once('database.php');
+require_once('session.php');
+if (($output = message()) !== null) {
+	echo '<center><a style="color: white; background-color: #002147; padding: 5px 10px; border-radius: 5px; text-decoration: none; display: inline-block; font-size: 25px;">'.$output.'</a><center>';
+}
+if(isset($_SESSION['username']) && $_SESSION['username'] !== ""){
+}else{
+  $_SESSION['message'] = "You must be logged in to access this page";
+  header("Location: https://turing.cs.olemiss.edu/~kcking2/SeniorProject/home.php");
+}
+
 $mysqli = Database::dbConnect();
 $mysqli -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
@@ -14,6 +24,7 @@ $city = $_POST['city'];
 $state = $_POST['state'];
 $zip = $_POST['zip'];
 $phone = $_POST['phone'];
+$uid = $_POST['id'];
 
 
   $query2 = "update externalusers set street = ?,city = ?,state = ?,zip = ?,phonenumber = ? where id = ?";
@@ -27,6 +38,11 @@ $phone = $_POST['phone'];
 
 ?>
 <link rel="stylesheet" href="home2.css">
+<div class="navbar">
+<a href='externalpage.php'>Back to Home</a>
+<a href='logout.php'>Logout</a>
+</div>
+
 <center><h1 style="color:white;"> Update User Information</h1></center>
 <form action="editrec.php" method = "post">
 <?php
@@ -39,6 +55,7 @@ if($stmt){
   $phone = $row['phonenumber'];
 
   $id = $row['id'];
+  echo '<input type="hidden" name = "id" value = "'.$id.'">';
   // echo '<center><p>'.$description.'<br/><input type="number" min = "0" max = "200" id="quantity" name="'.$id.'" value = "'.$quantity.'" required></center>';
    echo '<center><p style="color:white; font-size:larger;">Address<br/><input type="text" id="address" name="address" value = "'.$address.'" required></center>';
    echo '<center><p style="color:white; font-size:larger;">City<br/><input type="text" id="city" name="city" value = "'.$city.'" required></center>';
